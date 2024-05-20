@@ -9,22 +9,7 @@ import {
   bbvaCreditcard,
   bbvaInsurance
 } from '@bbva-web-components/bbva-foundations-icons';
-import '@bbva-web-components/bbva-core-collapse/bbva-core-collapse.js';
-import '@bbva-web-components/bbva-foundations-grid-tools-layout/bbva-foundations-grid-tools-layout.js';
-import '@bbva-web-components/bbva-web-form-checkbox/bbva-web-form-checkbox.js';
-import '@bbva-web-components/bbva-web-form-fieldset/bbva-web-form-fieldset.js';
-import '@bbva-web-components/bbva-web-form-radio-button/bbva-web-form-radio-button.js';
-
-import '@bbva-web-components/bbva-web-button-default/bbva-web-button-default.js';
-import '@bbva-web-components/bbva-web-form-text/bbva-web-form-text.js';
-import '@bbva-web-components/bbva-web-form-amount/bbva-web-form-amount.js';
 import '@bbva-web-components/bbva-web-card-product/bbva-web-card-product.js';
-
-import '@bbva-web-components/bbva-web-header-public-web/bbva-web-header-public-web.js';
-import '@bbva-web-components/bbva-web-module-footer/bbva-web-module-footer-language-list-item.js';
-import '@bbva-web-components/bbva-web-module-footer/bbva-web-module-footer.js';
-import '@bbva-web-components/bbva-web-panel-outstanding-opportunity/bbva-web-panel-outstanding-opportunity.js';
-import '@cells-demo/demo-data-dm/demo-data-dm.js';
 import '@cells-demo/demo-web-template/demo-web-template.js';
 import styles from './list-product-page-styles.js';
 

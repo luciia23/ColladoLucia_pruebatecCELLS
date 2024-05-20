@@ -22,60 +22,6 @@ export default css`
   box-sizing: inherit;
 }
 
-.hidden {
-  border: 0px;
-  clip: rect(0px, 0px, 0px, 0px);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 1px;
-  text-decoration: none;
-}
-
-form {
-  width: 40%;
-  margin: 3rem auto 1rem;
-}
-form > * {
-  margin-bottom: 1rem;
-}
-form bbva-web-form-fieldset {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-form bbva-web-form-text {
-  box-sizing: border-box;
-}
-form h3 {
-  font-weight: var(--fontFacePrimaryMediumFontWeight, ${unsafeCSS(foundations.fontFacePrimary.medium.fontWeight)});
-}
-
-.opportunity {
-  margin: 5rem 0 3rem;
-}
-.opportunity-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-.opportunity-header h3 {
-  margin: 0 0 0.5rem;
-  font-size: var(--typographyType4XLarge, ${unsafeCSS(foundations.typography.type4XLarge)});
-  line-height: var(--lineHeightType4XLarge, ${unsafeCSS(foundations.lineHeight.type4XLarge)});
-  font-weight: var(--fontFacePrimaryBookFontWeight, ${unsafeCSS(foundations.fontFacePrimary.book.fontWeight)});
-}
-.opportunity-header p {
-  margin: 0 0 1rem;
-}
-
-bbva-web-module-footer-language-list-item[selected] {
-  font-weight: var(--fontFacePrimaryMediumFontWeight, ${unsafeCSS(foundations.fontFacePrimary.medium.fontWeight)});
-}
-
 h2 {
   font-size: var(--typographyType3XLarge, ${unsafeCSS(foundations.typography.type3XLarge)});
   color: var(--colorsPrimary600, ${unsafeCSS(foundations.colors.primary600)});

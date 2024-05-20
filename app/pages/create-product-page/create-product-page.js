@@ -2,17 +2,14 @@
 import { html } from 'lit-element';
 import { CellsPage } from '@cells/cells-page';
 import { BbvaCoreIntlMixin } from '@bbva-web-components/bbva-core-intl-mixin';
-import '@bbva-web-components/bbva-core-icon/bbva-core-icon.js';
 import {
   bbvaRightarrow,
   bbvaImages
 } from '@bbva-web-components/bbva-foundations-icons';
-import '@bbva-web-components/bbva-core-collapse/bbva-core-collapse.js';
-import '@bbva-web-components/bbva-foundations-grid-tools-layout/bbva-foundations-grid-tools-layout.js';
-import '@bbva-web-components/bbva-web-form-checkbox/bbva-web-form-checkbox.js';
+
+/*form*/
 import '@bbva-web-components/bbva-web-form-fieldset/bbva-web-form-fieldset.js';
 import '@bbva-web-components/bbva-web-form-radio-button/bbva-web-form-radio-button.js';
-
 import '@bbva-web-components/bbva-web-button-default/bbva-web-button-default.js';
 import '@bbva-web-components/bbva-web-button-row/bbva-web-button-row.js';
 import '@bbva-web-components/bbva-web-form-text/bbva-web-form-text.js';
@@ -20,11 +17,6 @@ import '@bbva-web-components/bbva-web-form-amount/bbva-web-form-amount.js';
 import '@bbva-web-components/bbva-web-form-toggle/bbva-web-form-toggle.js';
 import '@bbva-web-components/bbva-web-form-textarea/bbva-web-form-textarea.js';
 
-import '@bbva-web-components/bbva-web-header-public-web/bbva-web-header-public-web.js';
-import '@bbva-web-components/bbva-web-module-footer/bbva-web-module-footer-language-list-item.js';
-import '@bbva-web-components/bbva-web-module-footer/bbva-web-module-footer.js';
-import '@bbva-web-components/bbva-web-panel-outstanding-opportunity/bbva-web-panel-outstanding-opportunity.js';
-import '@cells-demo/demo-data-dm/demo-data-dm.js';
 import '@cells-demo/demo-web-template/demo-web-template.js';
 import styles from './create-product-page-styles.js';
 
@@ -193,6 +185,19 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     }
   }
 
+  /**
+  * Maneja el proceso de agregar un producto
+  */
+  _addProduct() {
+    const formValues = this._getFormValues();
+    if (!this._validateFormValues(formValues)) {
+      return;
+    }
+    const newProduct = this._createNewProduct(formValues);
+    this._publishProduct(newProduct);
+    this._navigateAndReset();
+  }
+
   _resetForm() {
     this.shadowRoot.querySelector('#name').value = '';
     this.shadowRoot.querySelector('#amount').value = '';
@@ -239,7 +244,7 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
 
   /**
    * Publica newProduct y lo guarda en el almacenamiento local
-   * @param {*} newProduct
+   * @param {*} newProduct - Producto a añadir
    */
   _publishProduct(newProduct) {
     localStorage.setItem('productAdded', 'true');
@@ -249,19 +254,6 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
   _navigateAndReset() {
     this._resetForm();
     this.navigate('list-product');
-  }
-
-  /**
-   * Maneja el proceso de agregar un producto
-   */
-  _addProduct() {
-    const formValues = this._getFormValues();
-    if (!this._validateFormValues(formValues)) {
-      return;
-    }
-    const newProduct = this._createNewProduct(formValues);
-    this._publishProduct(newProduct);
-    this._navigateAndReset();
   }
 
   _sendList() {
