@@ -7,7 +7,6 @@ import {
   bbvaImages
 } from '@bbva-web-components/bbva-foundations-icons';
 
-/*form*/
 import '@bbva-web-components/bbva-web-form-fieldset/bbva-web-form-fieldset.js';
 import '@bbva-web-components/bbva-web-form-radio-button/bbva-web-form-radio-button.js';
 import '@bbva-web-components/bbva-web-button-default/bbva-web-button-default.js';
@@ -94,6 +93,7 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     `;
   }
 
+  // 💪 muy bien, el render se ve muy limpio
   get _renderProductListButton() {
     return html`
       <bbva-web-button-row-item icon="${bbvaRightarrow()}" @click="${this._sendList}">
@@ -117,18 +117,21 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     `;
   }
 
+  // 💪 muy bien, el render se ve muy limpio
+  // Recuerda siempre poner attribute name en el form
   _renderForm() {
     return html`
       <h2>${this._i18nKeys.formHeading}</h2>
-      <bbva-web-form-text id="name" label="${this._i18nKeys.nameInput}" required></bbva-web-form-text>
-      <bbva-web-form-amount id="amount" label="${this._i18nKeys.amountInput}" required></bbva-web-form-amount>
-      <bbva-web-form-textarea id="description" label="${this._i18nKeys.descInput}"></bbva-web-form-textarea>
+      <bbva-web-form-text name="name" id="name" label="${this._i18nKeys.nameInput}" required></bbva-web-form-text>
+      <bbva-web-form-amount name="amount" id="amount" label="${this._i18nKeys.amountInput}" required></bbva-web-form-amount>
+      <bbva-web-form-textarea name="description" id="description" label="${this._i18nKeys.descInput}"></bbva-web-form-textarea>
     `;
   }
 
+  // 💪 muy bien, el render se ve muy limpio
   _renderCategoryRadioButtons() {
     return html`
-      <bbva-web-form-fieldset legend="${this._i18nKeys.legendRadio}" sr-only>
+      <bbva-web-form-fieldset name="category" legend="${this._i18nKeys.legendRadio}" sr-only>
         <bbva-web-form-radio-button name="category" value="loan">${this._i18nKeys.loanRadio}</bbva-web-form-radio-button>
         <bbva-web-form-radio-button name="category" value="credit">${this._i18nKeys.cardRadio}</bbva-web-form-radio-button>
         <bbva-web-form-radio-button name="category" value="insurance">${this._i18nKeys.insuranceRadio}</bbva-web-form-radio-button>
@@ -137,6 +140,7 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     `;
   }
 
+  // 💪 muy bien, el render se ve muy limpio
   _renderImageUploadToggle() {
     return html`
       <bbva-web-form-toggle label="Add Image" @change="${this._handleToggleChange}" value="${this.isImageUploadVisible ? '1' : '0'}">
@@ -145,18 +149,20 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     `;
   }
 
+  // 💪 muy bien, el render se ve muy limpio
   _renderFileInput() {
     return this.isImageUploadVisible ? html`
       <div class="file-input-group">
         <bbva-web-button-row-item icon="${bbvaImages()}" @click="${this._triggerFileInput}"></bbva-web-button-row-item>
         <bbva-web-form-text id="fileName" label="Imagen Seleccionada" disabled></bbva-web-form-text>
       </div>
-      <input type="file" id="imageFile" @change="${this._handleFileChange}" accept="image/*" class="hidden-input">
+      <input type="file" name="imageFile" id="imageFile" @change="${this._handleFileChange}" accept="image/*" class="hidden-input">
       <div class="file-name">${this.fileName}</div>
     ` : '';
   }
 
 
+  // 💪 muy bien, el render se ve muy limpio
   _renderCreateProductButton() {
     return html`
       <bbva-web-button-default id="create-product-button" type="button" @click="${this._addProduct}">
@@ -169,10 +175,12 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     this.isImageUploadVisible = !this.isImageUploadVisible;
   }
 
+  // No es necesario....
   _triggerFileInput() {
     this.shadowRoot.querySelector('#imageFile').click();
   }
 
+  //💪 muy bien, has tratado las imagenes con FileReader :D
   _handleFileChange(ev) {
     const file = ev.target.files[0];
     if (file) {
@@ -188,8 +196,14 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
   /**
   * Maneja el proceso de agregar un producto
   */
-  _addProduct() {
-    const formValues = this._getFormValues();
+
+  // Podemos utilizar el evento para llegar al formulario y para sacar sus valores podemos ayudarnos de New FormData
+  // https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData
+  _addProduct(event) {
+    const form = event.currentTarget.closest('form');
+    const formValues = this._getFormValues(form);
+
+    // no debería hacer falta esta comprobación, el componente bbva tiene sus propias validaciones, por ejemplo required
     if (!this._validateFormValues(formValues)) {
       return;
     }
@@ -207,14 +221,24 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     this.fileName = '';
   }
 
-  _getFormValues() {
+  _getFormValues(form) {
+    const formData = new FormData(form);
+
+    /*
     const productName = this.shadowRoot.querySelector('#name').value.trim();
     const productAmount = this.shadowRoot.querySelector('#amount').value.trim();
     const productDescription = this.shadowRoot.querySelector('#description').value.trim();
     const image = this.imageFile || '';
     const selectedCategory = this.shadowRoot.querySelector('input[name="category"]:checked').value;
+    */
 
-    return { productName, productAmount, productDescription, image, selectedCategory };
+    return {
+      productName: formData.get('name'),
+      productAmount: formData.get('amount'),
+      productDescription: formData.get('description'),
+      image: formData.get('imageFile'),
+      selectedCategory: formData.get('category')
+    };
   }
 
   /**
@@ -251,6 +275,7 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     this.publish('new_product', newProduct);
   }
 
+  // 💪 muy bien :D
   _navigateAndReset() {
     this._resetForm();
     this.navigate('list-product');

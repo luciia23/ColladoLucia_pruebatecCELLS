@@ -27,8 +27,12 @@ class ListProductPage extends BbvaCoreIntlMixin(CellsPage) {
     };
   }
 
+  // Deberíamos inicializar las propiedades en el constructor para evitar posibles errores
   constructor() {
     super();
+
+    this.products = [];
+    this.newProduct = {};
     this.products = JSON.parse(localStorage.getItem('products') || '[]');
   }
 
@@ -53,6 +57,7 @@ class ListProductPage extends BbvaCoreIntlMixin(CellsPage) {
     }
   }
 
+  // 💪 muy bien, operador spread para que lit detecte el cambio
   _handleProductAdded() {
     this.products = [...this.products, this.newProduct];
     localStorage.setItem('products', JSON.stringify(this.products));
@@ -62,6 +67,7 @@ class ListProductPage extends BbvaCoreIntlMixin(CellsPage) {
    * Elimina un producto de la lista
    * @param {number} index - Índice del producto a eliminar
    */
+  // 💪 muy bien, operador spread para que lit detecte el cambio
   __deleteProduct(index) {
     this.products = this.products.filter((_, i) => i !== index);
     localStorage.setItem('products', JSON.stringify(this.products));
